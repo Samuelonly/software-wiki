@@ -96,6 +96,7 @@ verification: 实测
 - 官网首页：https://vibestart.net —— 「3489 种组合全部通过完整验证」
 - CI badge：https://github.com/VinkyDev/vibestart/actions/workflows/ci.yml
 - verification 分支：https://github.com/VinkyDev/vibestart/tree/verification
+- **验证数据文件**：release `v0.2.4` 的 `verification.json`（966 KB），下载地址 https://github.com/VinkyDev/vibestart/releases/download/v0.2.4/verification.json ，SHA256 `8e72ead499ddfdfc720d23b64a943564e885d18e8429f6f994a04355be083b54`。这是"实测"的机器可读证据，本库不复制该文件，只记地址和校验和。
 - 锁死 commit：`8565902dfdd3d1d2530a46f8051cd038bfba7d04`（2026-11-23，PGP 已验证）
 
 **结论：标 `实测` 有据。** 这是目前 `stacks/` 里唯一有公开 CI 实测记录、能标"实测"的来源。
