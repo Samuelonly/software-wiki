@@ -1,4 +1,4 @@
-# 锦囊（knowhow）
+# Software Wiki（软件 Wiki）
 
 一个给 AI 和人都可读的技术知识库，分两半：
 
