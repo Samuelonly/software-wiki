@@ -91,8 +91,6 @@
 | `database` | 备份恢复不回来 | 备份 → 重建 → 恢复 → 数据一致 |
 | `embedded` | 固件超出 flash | 产物大小 < flash 容量 → 编译后读 size |
 | `embedded` | 断电后不恢复 | 断复位测试 → 状态一致 |
-| `game` | 帧率抖动 | 最低配机型平均帧 ≥ 阈值 |
-| `game` | 手柄不识别 | 手柄 / 键鼠双通道输入都有响应 |
 | `ai-ml` | 显存峰值超限 | 推理显存峰值 < 卡上限 → 跑一遍读峰值 |
 | `ai-ml` | 断网直接崩 | 断网后降级而不是崩溃 |
 
@@ -110,5 +108,6 @@
 | `mobile.md` | Swift / SwiftUI / Kotlin / Flutter / React Native / Expo |
 | `embedded.md` | Embedded C / ESP32 / Arduino / Zephyr / FreeRTOS |
 | `database.md` | PostgreSQL / SQLite / MongoDB / Redis / ClickHouse |
-| `game.md` | Unity / Unreal / Godot / Bevy |
 | `ai-ml.md` | PyTorch / TensorFlow / ONNX / llama.cpp |
+
+**不收游戏引擎**：游戏涉及引擎授权费、后台权限分级、省电与硬件优化，超出「software / application」的 scope。
