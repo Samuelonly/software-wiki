@@ -60,6 +60,57 @@
 
 ---
 
+## SwiftUI（macOS 原生）
+
+**验证状态**：`文档`
+
+**fit**：只做 macOS、要最原生体验和最小体积（< 20MB）、不介意锁死 Apple 生态。
+
+**gotchas**：
+- 复杂表格 / 树 / 富文本编辑器在 SwiftUI 里不完整，要 `NSViewRepresentable` 桥回 AppKit，桥接层的生命周期容易错
+- 版本差异大：Observation（`@Observable`）要 macOS 14+，新导航 / 新控件在 15+ 才有，低版本要整套降级分支
+- 菜单栏、右键菜单、多窗口这类桌面能力，SwiftUI 覆盖晚于 AppKit，经常要混写
+- AI 写 SwiftUI 容易用错 `@State` / `@Binding` / `@Environment` 的所有权，报错信息难读
+
+**derived_checks**：
+- [ ] 编译零警告 → `xcodebuild build -scheme <Scheme> -destination 'platform=macOS'` 且 `-warnings-as-errors`
+- [ ] 无未加版本判断的新 API → 静态扫描无 `if #available` 包裹的新 API 调用
+- [ ] 产物架构完整 → `lipo -info <App>.app/Contents/MacOS/<bin>` 含目标架构
+- [ ] 无私有 API（App Store 会拒）→ `nm -u <bin>` 不出现私有符号
+- [ ] 签名有效 → `codesign --verify --deep --strict --verbose=2 <App>.app`
+- [ ] 沙箱 / 公证按分发方式通过 → App Store 版 `codesign -d --entitlements :-` 含 `app-sandbox=true`；直接分发版 `spctl -a -vv` + `xcrun stapler validate`
+- [ ] 最低支持版本实机跑通 → 启动 → 打开文件 → 核心流程 → 退出
+- [ ] 体积达标 → 产物 < 目标上限
+
+**来源**：
+- [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
+- [SwiftUI 版本可用性](https://developer.apple.com/documentation/swiftui)
+
+---
+
+## AppKit
+
+**验证状态**：`文档`
+
+**fit**：要完整桌面能力（复杂表格、多窗口、自定义菜单、底层事件）、能接受 Objective-C 时代的老 API 风格。
+
+**gotchas**：
+- Delegate / Target-Action / KVO 三套老范式并存，AI 经常混着写，导致回调不触发且不报错
+- 内存管理虽有 ARC，但 delegate 强引用循环、`NSWindow` 生命周期错序仍会造成崩溃
+- 和 SwiftUI 混写时的线程约束（UI 必须主线程）容易漏，表现为随机卡死
+
+**derived_checks**：
+- [ ] 编译零警告 → `xcodebuild build ... -warnings-as-errors`
+- [ ] 无循环引用（关键 delegate）→ 静态扫描 `weak var delegate`
+- [ ] UI 更新都在主线程 → 静态扫描 `DispatchQueue.main` / `@MainActor`
+- [ ] 签名 / 沙箱 / 公证 → 同 SwiftUI 那四项
+- [ ] 最低支持版本实机跑通 → 同上
+
+**来源**：
+- [Apple AppKit 文档](https://developer.apple.com/documentation/appkit)
+
+---
+
 ## 待填框架
 
 | 框架 | 语言 | 引擎 | 何时填 |
