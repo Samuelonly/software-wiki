@@ -1,107 +1,47 @@
-# Software Wiki（软件开发知识库）
+# Software Wiki
 
-一个面向 AI 与人类读者的软件开发知识库，包含两个组成部分：
+一个供人和 AI 共同使用的软件开发知识库。它把"容易被遗漏的要点"预先写下来——例如修改原文件时忘记同步备份——让 AI 在制定计划和验收时能照着核对，而不是只处理它已经知道的内容。
 
-- **`stacks/` 技术选型库** —— 记录项目适合采用哪些技术
-- **`checklists/` 品类功能清单** —— 记录某类软件应当具备哪些功能
+## 它能做什么
 
-## 为什么需要这个库
+- **技术选型**：查某类项目适合用什么技术、有哪些已知问题、哪些组合经过实测验证。
+- **功能验收**：查某类软件应当具备哪些功能，逐条确认做没做全。
 
-AI 在生成软件时存在一个固有局限：它只能处理自己"知道"的信息。需求中未明确说明、且其经验中未覆盖的要点——例如"修改了原文件但遗漏了备份文件"——不会出现在它生成的计划中。即便 AI 严格执行计划，也只能覆盖计划里已有的条目。
+使用时把相关条目交给 AI 作为输入，使原本不会出现在其计划中的要点进入计划；完成后再用同一份条目逐条验收。
 
-本库的作用是提供一层外部知识：将这些容易被遗漏的要点预先记录下来，供 AI 在规划与验收时读取。
+## 收录内容
 
-## 两个部分的划分
+库分两个部分，各按主题分文件：
 
-| 维度 | `stacks/` | `checklists/` |
-|---|---|---|
-| 回答的问题 | 采用哪些技术 | 应当具备哪些功能 |
-| 条目形态 | 某技术块的组合方案与已知问题 | 一句可独立验证的验收描述 |
-| 内容来源 | 从现有开源项目抽取（如 VibeStart） | 从实际遇到的问题中总结 |
-| 目标读者 | 进行技术选型的人 | 不具备技术背景、但需要判断软件是否完成的人 |
+**`stacks/` 技术选型库**
 
-## 目录结构
+- [web-frontend.md](stacks/web-frontend.md) —— TypeScript 全栈技术选型，取自 VibeStart，含各层级可选项、明确不覆盖的平台、已知问题与 CI 实测依据。
 
-```
-/
-├── README.md               ← 本文件
-├── stacks/                 ← 技术选型库
-│   ├── _SCHEMA.md          ← 字段规范（填写前请先阅读）
-│   ├── web-frontend.md     ← V1：从 VibeStart 抽取的首批条目
-│   ├── web-backend.md      ← 待填：Node(Hono/Express) / Go / Python / Java / Rust
-│   ├── desktop.md          ← 待填：Tauri / Electron / Qt / Wails / Avalonia / WinUI(Fluent) / Flutter Desktop
-│   ├── mobile.md           ← 待填：Swift / SwiftUI / Kotlin / Flutter / React Native / Expo
-│   ├── embedded.md         ← 待填：Embedded C/C++ / ESP32 / Arduino / Zephyr / FreeRTOS
-│   ├── database.md         ← 待填：PostgreSQL / SQLite / MongoDB / Redis / ClickHouse
-│   ├── game.md             ← 待填：Unity / Unreal / Godot / Bevy
-│   └── ai-ml.md            ← 待填：PyTorch / TensorFlow / ONNX / llama.cpp
-└── checklists/             ← 品类功能清单
-    ├── _SCHEMA.md          ← 字段规范（填写前请先阅读）
-    └── archive-utility.md  ← 示例：压缩软件（待填）
-```
+**`checklists/` 品类功能清单**
 
-## 如何填写 `stacks/`（技术选型库）
+- [app-store-compliance.md](checklists/app-store-compliance.md) —— 应用上架合规清单，124 条，覆盖 Apple App Store、Google Play 与 Web，每条附官方条款出处。
 
-每个技术块单独一个文件，使用统一字段（详见 `stacks/_SCHEMA.md`）。核心字段：
+## 使用示例
 
-- **fit**：适用场景
-- **gotchas**：已知问题与注意事项
-- **验证状态**：`实测`（组合经过实际安装与测试） / `文档`（仅有文档描述）
-- **来源**：抽取来源，需锁定 commit
+要开发一个准备上架的应用：打开 `checklists/app-store-compliance.md`，在规划和提交前逐条核对，命中问题的按条目给出的"修法"处理，每条的"出处"可回溯到官方条款。
 
-填写规范：
+做 TypeScript 全栈项目时：参考 `stacks/web-frontend.md`，先看"不覆盖"一节确认技术边界，再避开已知问题一节列出的内容。
 
-1. VibeStart 是目前唯一达到"实测"级别的素材——其支持的全部组合均在 CI 中完成实际安装、测试与构建。抽取时应保留验证结果，这是其相较于一般选型文章的优势。
-2. 无法找到实测依据的条目标注为 `文档`，不得标注为 `实测`。
-3. 标注 `实测` 必须附上来源链接或 commit 编号，作为可核查依据。
-4. 先确定字段规范，再添加条目；不符合规范的条目不予收录。
-5. 每个技术块单独一个文件，不得将不同平台或语言混合在同一条目中。
+## 参与维护
 
-## 如何填写 `checklists/`（品类功能清单）
+新增或修订条目前请先阅读对应目录的字段规范：
 
-每个软件品类单独一个文件。每条验收项应是一句简洁的自然语言描述。
-
-一条合格的验收项需满足以下三条标准：
-
-1. **描述"应当具备什么能力"，而非"如何实现"** —— 例如写"原文件不得被删除"，而非"采用先复制后删除的模式"。
-2. **可独立验证，无需阅读代码** —— 不具备技术背景的读者也能据此作出判断。
-3. **用户确实关心，但容易被忽略** —— 这是清单的价值所在。多数人能想到"能够打开压缩文件"，但很少有人想到"备份文件是否同步更新"。
-
-撰写时可自问：**用户在实际使用中可能遇到哪些问题？** 将每个问题记录为一条验收项。
-
-填写规范：
-
-1. 条目数量因品类而异，不应为追求数量而添加。
-2. 不确定的条目宁可不写；写入的条目必须可验证。
-3. 每条需标注来源——记录该问题来自哪次实际经历。
-
-## 如何使用本库
-
-1. 确定待开发的软件类型 → 在 `checklists/` 中查找对应品类的清单文件
-2. 将清单提供给 AI 作为规划输入 → 使原本会被遗漏的要点进入计划
-3. 计划执行完成后 → 使用同一份清单逐条验收；未通过的条目原文即为驳回依据，可直接反馈给 Agent
-4. `stacks/` 用于生成项目地基阶段的技术选型参考，提示相关注意事项
-
-## 本库不收录什么
-
-- 不收录代码（脚手架、状态机、MCP server 等）
-- 不收录产品逻辑（任何工具的实现）
-- 仅收录知识——可被直接读入上下文的 markdown / yaml 条目
+- `stacks/_SCHEMA.md` —— 技术选型库的字段定义与填写规则
+- `checklists/_SCHEMA.md` —— 品类功能清单的字段定义与验收项标准
 
 ## 来源与致谢
 
-本库的 V1 内容取自以下开源项目，按 MIT 许可引用，并锁定 commit 不跟随上游更新：
+本库的知识条目整理自以下开源项目。此表同时作为来源台账：记录每个条目取自哪里、锁定在哪个版本，上游更新时可据此核对并同步。
 
-| 来源 | 用途 | 许可 | 锁定 commit |
-|---|---|---|---|
-| [VibeStart](https://github.com/VinkyDev/vibestart)（作者 Vinky） | `stacks/web-frontend.md` 的全部技术选型事实与实测依据 | MIT | `8565902dfdd3d1d2530a46f8051cd038bfba7d04` |
+| 来源 | 用途 | 许可 | 锁定版本 | 上游地址 |
+|---|---|---|---|---|
+| VibeStart（作者 Vinky） | `stacks/web-frontend.md` 的技术选型事实与实测依据 | MIT | commit `8565902d`（2026-11-23） | https://github.com/VinkyDev/vibestart |
+| app-store-compliance（作者 mjmirza） | `checklists/app-store-compliance.md` 的 124 条规则事实（中文重写，非原文复制） | 原项目 ORA 2.3；本库为独立重述 | commit `6257b0fd`（2026-11-25） | https://github.com/mjmirza/app-store-compliance |
+| awesome-design-md（作者 VoltAgent） | 参考来源：UI 与视觉规范写法。当前尚未收录内容，保留追踪以便后续取材与跟进更新 | MIT | commit `fcc70284`（2026-10-28） | https://github.com/VoltAgent/awesome-design-md |
 
-原项目官网：https://vibestart.net —— 官网声明"3489 种组合全部通过完整验证"。相关验证工作由原项目作者完成，本库仅作抽取与转述；引用时请保留来源信息。
-
-## 当前状态
-
-| 部分 | 状态 |
-|---|---|
-| `stacks/` web-frontend（VibeStart） | **V1 已填写**（2026-11-24，锁 commit `8565902d`） |
-| `stacks/` 其余八个技术块 | 待填 |
-| `checklists/` 各品类 | 待填 |
+VibeStart 官网：https://vibestart.net —— "3489 种组合全部通过完整验证"。相关验证由其作者完成，本库仅作抽取和转述。
