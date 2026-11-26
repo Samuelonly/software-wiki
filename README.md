@@ -42,6 +42,6 @@
 |---|---|---|---|---|
 | VibeStart（作者 Vinky） | `stacks/web-frontend.md` 的技术选型事实与实测依据 | MIT | commit `8565902d`（2026-11-23） | https://github.com/VinkyDev/vibestart |
 | app-store-compliance（作者 mjmirza） | `checklists/app-store-compliance.md` 的 124 条规则事实（中文重写，非原文复制） | 原项目 ORA 2.3；本库为独立重述 | commit `6257b0fd`（2026-11-25） | https://github.com/mjmirza/app-store-compliance |
-| awesome-design-md（作者 VoltAgent） | 参考来源：UI 与视觉规范写法。当前尚未收录内容，保留追踪以便后续取材与跟进更新 | MIT | commit `fcc70284`（2026-10-28） | https://github.com/VoltAgent/awesome-design-md |
+| awesome-design-md（作者 VoltAgent） | 待评估来源：评估后未采用，当前无内容取自该项目。保留记录以便跟进其更新，日后若决定采用再据此同步 | MIT | commit `fcc70284`（2026-10-28） | https://github.com/VoltAgent/awesome-design-md |
 
 VibeStart 官网：https://vibestart.net —— "3489 种组合全部通过完整验证"。相关验证由其作者完成，本库仅作抽取和转述。
